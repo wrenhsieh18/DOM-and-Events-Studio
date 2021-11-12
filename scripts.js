@@ -1,4 +1,3 @@
-
 init = () => {
     const takeOffButton = document.getElementById("takeoff");
     const landingButton = document.getElementById("landing");
@@ -7,7 +6,6 @@ init = () => {
     const shuttleBackground = document.getElementById("shuttleBackground");
     const shuttleHeight = document.getElementById("spaceShuttleHeight");
     const rocketImage = document.getElementById("rocket");
-
 
     takeOffButton.addEventListener("click", () => {
         if (window.confirm("Confirm that the shuttle is ready for takeoff.")) {
@@ -37,36 +35,34 @@ init = () => {
         }
     })
 
-    const horizontalPropertyChange = (num) => {
-        let value = Number(rocketImage.style.left.replace("px", ""));
-        value += num;
-        if (value >= 230) {
-            value = 230
-        }
-        if (value <= -230) {
-            value = -230
-        }
-        return value + 'px';
-        
-    };
-
-    const verticalPropertyChange = (num) => {
-        let value = Number(rocketImage.style.top.replace("px", ""));
-        value += num;
-        if (value >= 250) {
-            value = 250
-        }
-        if (value <= 0) {
-            value = 0
-        }
-        return value + 'px';
-        
+    const positionValueChange = (delta, direction) => {
+        if (direction === 'horizontal') {
+            let value = Number(rocketImage.style.left.replace("px", ""));
+            value += delta;
+            if (value >= 230) {
+                value = 230;
+            }
+            if (value <= -230) {
+                value = -230;
+            }
+            return value + 'px'; 
+        } else {
+            let value = Number(rocketImage.style.top.replace("px", ""));
+            value += delta;
+            if (value >= 250) {
+                value = 250;
+            }
+            if (value <= 0) {
+                value = 0;
+            }
+            return value + 'px';
+        }        
     };
 
     document.getElementById("up").addEventListener("click", () => {
         if (flightStatus.innerHTML === "Shuttle in flight.") {
             shuttleHeight.innerHTML = Number(shuttleHeight.innerHTML) + 10000;
-            rocketImage.style.top = verticalPropertyChange(-10);
+            rocketImage.style.top = positionValueChange(-10, 'vertical');
         } else {
             window.alert("Please take off first.");
         }
@@ -76,7 +72,7 @@ init = () => {
         if (flightStatus.innerHTML === "Shuttle in flight.") {
             if (Number(shuttleHeight.innerHTML) >= 10000 ) {
                 shuttleHeight.innerHTML = Number(shuttleHeight.innerHTML) - 10000;
-                rocketImage.style.top = verticalPropertyChange(10);
+                rocketImage.style.top = positionValueChange(10, 'vertical');
             } else {
                 shuttleHeight.innerHTML = 0;
             }
@@ -86,11 +82,11 @@ init = () => {
     })
 
     document.getElementById("right").addEventListener("click", () => {
-        rocketImage.style.left = horizontalPropertyChange(10);
+        rocketImage.style.left = positionValueChange(10, 'horizontal');
     })
     
     document.getElementById("left").addEventListener("click", () => {
-        rocketImage.style.left = horizontalPropertyChange(-10);
+        rocketImage.style.left = positionValueChange(-10, 'horizontal');
     })
 
 }
