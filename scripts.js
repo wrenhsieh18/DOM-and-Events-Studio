@@ -8,8 +8,6 @@ init = () => {
     const shuttleHeight = document.getElementById("spaceShuttleHeight");
     const rocketImage = document.getElementById("rocket");
 
-    const rightButton = document.getElementById("right");
-    const leftButton = document.getElementById("left");
 
     takeOffButton.addEventListener("click", () => {
         if (window.confirm("Confirm that the shuttle is ready for takeoff.")) {
@@ -25,6 +23,7 @@ init = () => {
         shuttleBackground.style.backgroundColor = "green";
         shuttleHeight.innerHTML = 0;
         rocketImage.style.left = "0px";
+        rocketImage.style.top = "250px";
     })
 
     missionAbbortButton.addEventListener("click", () => {
@@ -33,23 +32,11 @@ init = () => {
             shuttleBackground.style.backgroundColor = "green";
             shuttleHeight.innerHTML = 0;
             rocketImage.style.left = "0px";
+            rocketImage.style.top = "250px";
         }
     })
 
-
-    document.getElementById("up").addEventListener("click", () => {
-        shuttleHeight.innerHTML = Number(shuttleHeight.innerHTML) + 10000;
-    })
-
-    document.getElementById("down").addEventListener("click", () => {
-        if (Number(shuttleHeight.innerHTML) >= 10000 ) {
-            shuttleHeight.innerHTML = Number(shuttleHeight.innerHTML) - 10000;
-        } else {
-            shuttleHeight.innerHTML = 0;
-        }
-    })
-
-    const leftPropertyIncrease = (num) => {
+    const horizontalPropertyIncrease = (num) => {
         let value = Number(rocketImage.style.left.replace("px", ""));
         value += num;
         if (value >= 230) {
@@ -62,12 +49,39 @@ init = () => {
         
     };
 
+    const verticalPropertyIncrease = (num) => {
+        let value = Number(rocketImage.style.top.replace("px", ""));
+        value += num;
+        if (value >= 250) {
+            value = 250
+        }
+        if (value <= 0) {
+            value = 0
+        }
+        return value + 'px';
+        
+    };
+
+    document.getElementById("up").addEventListener("click", () => {
+        shuttleHeight.innerHTML = Number(shuttleHeight.innerHTML) + 10000;
+        rocketImage.style.top = verticalPropertyIncrease(-10);
+    })
+
+    document.getElementById("down").addEventListener("click", () => {
+        if (Number(shuttleHeight.innerHTML) >= 10000 ) {
+            shuttleHeight.innerHTML = Number(shuttleHeight.innerHTML) - 10000;
+            rocketImage.style.top = verticalPropertyIncrease(10);
+        } else {
+            shuttleHeight.innerHTML = 0;
+        }
+    })
+
     document.getElementById("right").addEventListener("click", () => {
-        rocketImage.style.left = leftPropertyIncrease(10);
+        rocketImage.style.left = horizontalPropertyIncrease(10);
     })
     
     document.getElementById("left").addEventListener("click", () => {
-        rocketImage.style.left = leftPropertyIncrease(-10);
+        rocketImage.style.left = horizontalPropertyIncrease(-10);
     })
 
 }
