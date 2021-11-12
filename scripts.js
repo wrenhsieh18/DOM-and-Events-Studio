@@ -14,6 +14,7 @@ init = () => {
             flightStatus.innerHTML = "Shuttle in flight.";
             shuttleBackground.style.backgroundColor = "blue";
             shuttleHeight.innerHTML = Number(shuttleHeight.innerHTML) + 10000;
+            rocketImage.style.top = "240px";
         }
     })
 
@@ -36,7 +37,7 @@ init = () => {
         }
     })
 
-    const horizontalPropertyIncrease = (num) => {
+    const horizontalPropertyChange = (num) => {
         let value = Number(rocketImage.style.left.replace("px", ""));
         value += num;
         if (value >= 230) {
@@ -49,7 +50,7 @@ init = () => {
         
     };
 
-    const verticalPropertyIncrease = (num) => {
+    const verticalPropertyChange = (num) => {
         let value = Number(rocketImage.style.top.replace("px", ""));
         value += num;
         if (value >= 250) {
@@ -63,25 +64,33 @@ init = () => {
     };
 
     document.getElementById("up").addEventListener("click", () => {
-        shuttleHeight.innerHTML = Number(shuttleHeight.innerHTML) + 10000;
-        rocketImage.style.top = verticalPropertyIncrease(-10);
+        if (flightStatus.innerHTML === "Shuttle in flight.") {
+            shuttleHeight.innerHTML = Number(shuttleHeight.innerHTML) + 10000;
+            rocketImage.style.top = verticalPropertyChange(-10);
+        } else {
+            window.alert("Please take off first.");
+        }
     })
 
     document.getElementById("down").addEventListener("click", () => {
-        if (Number(shuttleHeight.innerHTML) >= 10000 ) {
-            shuttleHeight.innerHTML = Number(shuttleHeight.innerHTML) - 10000;
-            rocketImage.style.top = verticalPropertyIncrease(10);
+        if (flightStatus.innerHTML === "Shuttle in flight.") {
+            if (Number(shuttleHeight.innerHTML) >= 10000 ) {
+                shuttleHeight.innerHTML = Number(shuttleHeight.innerHTML) - 10000;
+                rocketImage.style.top = verticalPropertyChange(10);
+            } else {
+                shuttleHeight.innerHTML = 0;
+            }
         } else {
-            shuttleHeight.innerHTML = 0;
+            window.alert("Please take off first.");
         }
     })
 
     document.getElementById("right").addEventListener("click", () => {
-        rocketImage.style.left = horizontalPropertyIncrease(10);
+        rocketImage.style.left = horizontalPropertyChange(10);
     })
     
     document.getElementById("left").addEventListener("click", () => {
-        rocketImage.style.left = horizontalPropertyIncrease(-10);
+        rocketImage.style.left = horizontalPropertyChange(-10);
     })
 
 }
